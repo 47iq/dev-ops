@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "SkiPass API",
+    "_postman_id": "12345678-1234-1234-1234-123456789abc",
+    "description": "Коллекция для взаимодействия с API SkiPass",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Ski Passes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/ski-passes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "ski-passes"]
+        }
+      }
+    },
+    {
+      "name": "Get Ski Pass by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/ski-passes/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "ski-passes", "1"]
+        }
+      }
+    },
+    {
+      "name": "Create Ski Pass",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"DAY_PASS\",\n  \"validFrom\": \"2025-01-01T09:00:00\",\n  \"validTo\": \"2025-01-01T17:00:00\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/ski-passes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "ski-passes"]
+        }
+      }
+    },
+    {
+      "name": "Update Ski Pass",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"WEEK_PASS\",\n  \"validFrom\": \"2025-01-01T09:00:00\",\n  \"validTo\": \"2025-01-07T17:00:00\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/ski-passes/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "ski-passes", "1"]
+        }
+      }
+    }
+  ]
+}
