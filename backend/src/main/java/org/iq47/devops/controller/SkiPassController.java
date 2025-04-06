@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ski-passes")
+@CrossOrigin(origins = "http://localhost:3000")  // Разрешаем доступ с этого фронтенд сервера
 public class SkiPassController {
     @Autowired
     private SkiPassService skiPassService;
