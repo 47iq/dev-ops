@@ -1,8 +1,6 @@
-// src/components/SkiPassForm.js
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Grid, Box, Typography, Paper } from '@mui/material';
+import { TextField, Button, Grid, Box, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
 const SkiPassForm = ({ skiPassId, onUpdateSuccess, onCloseForm }) => {
     const [skiPass, setSkiPass] = useState({
@@ -10,6 +8,9 @@ const SkiPassForm = ({ skiPassId, onUpdateSuccess, onCloseForm }) => {
         price: 0,
         duration: 0
     });
+
+    // State to control the confirmation dialog for deletion
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     // Загрузка данных скипасса для редактирования
     useEffect(() => {
@@ -43,6 +44,32 @@ const SkiPassForm = ({ skiPassId, onUpdateSuccess, onCloseForm }) => {
             })
             .catch(error => {
                 console.error('Error updating ski pass:', error);
+            });
+    };
+
+    // Функция для открытия диалогового окна подтверждения удаления
+    const handleDeleteClick = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    // Функция для закрытия диалогового окна подтверждения удаления
+    const handleDeleteCancel = () => {
+        setDeleteDialogOpen(false);
+    };
+
+    // Функция для выполнения удаления
+    const handleDeleteConfirm = () => {
+        axios.delete(`http://localhost:8080/api/ski-passes/${skiPassId}`)
+            .then(response => {
+                alert('Ski pass deleted successfully!');
+                onUpdateSuccess();  // Обновляем таблицу после успешного удаления
+                onCloseForm();  // Скрываем форму
+            })
+            .catch(error => {
+                console.error('Error deleting ski pass:', error);
+            })
+            .finally(() => {
+                setDeleteDialogOpen(false); // Закрываем диалоговое окно
             });
     };
 
@@ -89,14 +116,33 @@ const SkiPassForm = ({ skiPassId, onUpdateSuccess, onCloseForm }) => {
                                 required
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button variant="contained" color="primary" fullWidth type="submit">
+                        <Grid item xs={12} container justifyContent="space-between">
+                            <Button variant="contained" color="primary" type="submit">
                                 Update Ski Pass
+                            </Button>
+                            <Button variant="contained" color="error" onClick={handleDeleteClick}>
+                                Delete Ski Pass
                             </Button>
                         </Grid>
                     </Grid>
                 </form>
             </Paper>
+
+            {/* Диалоговое окно подтверждения удаления */}
+            <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
+                <DialogTitle>Delete Ski Pass</DialogTitle>
+                <DialogContent>
+                    Are you sure you want to delete this ski pass?
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleteCancel} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDeleteConfirm} color="error" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };

@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ski-passes")
-@CrossOrigin(origins = "http://localhost:3000")  // Разрешаем доступ с этого фронтенд сервера
+@CrossOrigin(origins = "http://localhost:3000")  // Allows access from this frontend server
 public class SkiPassController {
     @Autowired
     private SkiPassService skiPassService;
@@ -35,5 +35,11 @@ public class SkiPassController {
     @PutMapping("/{id}")
     public SkiPass updateSkiPass(@PathVariable Long id, @RequestBody SkiPass skiPass) {
         return skiPassService.updateSkiPass(id, skiPass);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSkiPass(@PathVariable Long id) {
+        skiPassService.deleteSkiPass(id);
+        return ResponseEntity.noContent().build();
     }
 }
