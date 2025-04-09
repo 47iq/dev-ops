@@ -1,5 +1,6 @@
 package org.iq47.devops.service;
 
+import lombok.RequiredArgsConstructor;
 import org.iq47.devops.model.SkiPass;
 import org.iq47.devops.repository.SkiPassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class SkiPassService {
-    @Autowired
-    private SkiPassRepository skiPassRepository;
+    private final SkiPassRepository skiPassRepository;
 
     public List<SkiPass> getAllSkiPasses() {
         return skiPassRepository.findAll();
