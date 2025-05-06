@@ -12,7 +12,10 @@
       - lsb-release
     docker_gpg_url: https://download.docker.com/linux/ubuntu/gpg
     docker_repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-    docker_compose_version: "v2.24.6"
+    docker_compose_version: "v2.35.1"
+    uname_s: "{{ lookup('pipe', 'uname -s') }}"
+    uname_m: "{{ lookup('pipe', 'uname -m') }}"
+    docker_compose_file_path: ./docker-compose.yml
 
   tasks:
     - name: Установка зависимостей
@@ -49,11 +52,11 @@
 
     - name: Загрузка Docker Compose
       get_url:
-        url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-$(uname -s)-$(uname -m)"
+        url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ uname_s }}-{{ uname_m }}"
         dest: /usr/local/bin/docker-compose
         mode: '0755'
 
-    - name: Создание символической ссылки на docker-compose (если нужно)
+    - name: Создание символической ссылки на docker-compose
       file:
         src: /usr/local/bin/docker-compose
         dest: /usr/bin/docker-compose
@@ -69,3 +72,14 @@
       command: docker-compose --version
       register: compose_version_output
       changed_when: false
+
+    - name: Copy docker-compose.yml
+      ansible.builtin.copy:
+        src: "{{ docker_compose_file_path }}"
+        dest: /home/{{ ansible_user }}/docker-compose.yml
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: docker-compose up
+      command: docker-compose up -d
