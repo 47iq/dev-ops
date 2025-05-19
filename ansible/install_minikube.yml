@@ -1,0 +1,49 @@
+---
+- name: Установка Minikube
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Установка зависимостей
+      apt:
+        name:
+          - curl
+          - apt-transport-https
+          - ca-certificates
+          - conntrack
+          - socat
+          - ebtables
+          - iptables
+          - gnupg
+        state: present
+        update_cache: yes
+
+    - name: Установка kubectl
+      shell: |
+        curl -LO "https://dl.k8s.io/release/v1.33.1/bin/linux/amd64/kubectl"
+        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        rm -f kubectl
+      args:
+        creates: /usr/local/bin/kubectl
+
+    - name: Установка Minikube
+      shell: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        install minikube-linux-amd64 /usr/local/bin/minikube
+        rm -f minikube-linux-amd64
+      args:
+        creates: /usr/local/bin/minikube
+
+    - name: Добавление пользователя в группу docker (если используется docker драйвер)
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: yes
+
+    - name: Проверка версии minikube
+      command: minikube version
+      register: minikube_version_output
+
+    - name: Печать версии minikube
+      debug:
+        var: minikube_version_output.stdout
