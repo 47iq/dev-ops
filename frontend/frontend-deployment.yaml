@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: localhost
+    - host: frontend.devops-2025
       http:
         paths:
           - path: /frontend
@@ -15,7 +15,7 @@ spec:
               service:
                 name: devops-2025-frontend
                 port:
-                  number: 3000
+                  number: 80
 
 ---
 
