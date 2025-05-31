@@ -1,14 +1,6 @@
 pipeline {
 
-	agent {
-		docker {
-			image 'ivankustarev/debian-openjdk-17-maven-3.9.4-docker'
-			args '-v /var/run/docker.sock:/var/run/docker.sock'
-			args '-e DOCKER_USERNAME_FOR_PUSH'
-			args '-e DOCKER_PASSWORD_FOR_PUSH'
-			args '--privileged'
-        }
-    }
+	agent any
 
     stages {
 		stage('Checkout') {
