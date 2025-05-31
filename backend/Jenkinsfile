@@ -6,7 +6,7 @@ pipeline {
 			args '-v /var/run/docker.sock:/var/run/docker.sock'
 			args '-e DOCKER_USERNAME_FOR_PUSH'
 			args '-e DOCKER_PASSWORD_FOR_PUSH'
-			args '--user root'
+			args '--privileged'
         }
     }
 
