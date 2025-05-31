@@ -7,7 +7,7 @@ pipelineJob('pipeline-backend') {
             scm {
                 git {
                     remote {
-                        url('file:///repo')
+                        url('https://github.com/47iq/dev-ops.git')
                     }
                     branches('main', 'lab1', 'lab2', 'lab3', 'lab4')
                 }
