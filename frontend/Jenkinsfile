@@ -1,0 +1,69 @@
+pipeline {
+	agent any
+
+    environment {
+		DOCKER_USERNAME = credentials('docker-username') // Jenkins credentials ID
+        DOCKER_PASSWORD = credentials('docker-password')
+    }
+
+    stages {
+		stage('Checkout') {
+			steps {
+				checkout scm
+            }
+        }
+
+        stage('Setup Node.js') {
+			steps {
+				// Здесь предполагается, что Node.js 20 установлен на агенте Jenkins
+                // Если нет, можно добавить установку через nvm или используемый метод
+                echo "Assuming Node.js 20 is installed"
+            }
+        }
+
+        stage('Install npm dependencies') {
+			steps {
+				dir('frontend') {
+					sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build frontend') {
+			steps {
+				dir('frontend') {
+					sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Test frontend') {
+			steps {
+				dir('frontend') {
+					sh 'npm run test'
+                }
+            }
+        }
+
+        stage('Build and push Docker image') {
+			steps {
+				dir('frontend') {
+					withCredentials([usernamePassword(credentialsId: 'docker-credentials-id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+						sh '''
+                        echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+                        docker build -t ivankustarev/devops-2025-frontend:latest .
+                        docker push ivankustarev/devops-2025-frontend:latest
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+		always {
+			echo 'Cleaning workspace'
+            cleanWs()
+        }
+    }
+}

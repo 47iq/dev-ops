@@ -1,0 +1,42 @@
+pipeline {
+	agent any
+
+    stages {
+		stage('Checkout') {
+			steps {
+				checkout scm
+            }
+        }
+
+        stage('Build') {
+			steps {
+				sh 'mvn clean install -DskipTests'
+            }
+        }
+
+        stage('Test') {
+			steps {
+				sh 'mvn clean test'
+            }
+        }
+
+        stage('Push Image') {
+			steps {
+				script {
+					docker.withRegistry('', '') {
+                            sh """
+                               docker build -t ivankustarev/devops-2025-backend:latest .
+                               docker push ivankustarev/devops-2025-backend:latest
+                            """
+                        }
+                    }
+            }
+        }
+    }
+
+    post {
+		failure {
+			echo 'Build failed!'
+        }
+    }
+}
