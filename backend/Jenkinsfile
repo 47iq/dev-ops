@@ -30,10 +30,15 @@ pipeline {
 			steps {
 				script {
 					sh """
-                            	echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-                               	docker build -t ivankustarev/devops-2025-backend:latest .
-                               	docker push ivankustarev/devops-2025-backend:latest
-                            """
+						sudo apt update
+						sudo apt install docker.io
+						sudo systemctl start docker
+						sudo systemctl enable docker
+
+                        echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+                        docker build -t ivankustarev/devops-2025-backend:latest .
+                        docker push ivankustarev/devops-2025-backend:latest
+                        """
                 }
             }
         }
