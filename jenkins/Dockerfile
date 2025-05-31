@@ -21,6 +21,20 @@ RUN apt-get update && \
 RUN groupadd -f docker && \
     usermod -aG docker jenkins
 
+RUN apt-get update && apt-get install -y openjdk-17-jdk
+
+# Устанавливаем Maven
+ENV MAVEN_VERSION=3.9.4
+RUN curl -fsSL https://downloads.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -o /tmp/maven.tar.gz \
+    && tar -xzf /tmp/maven.tar.gz -C /opt \
+    && ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven \
+    && rm /tmp/maven.tar.gz
+
+ENV MAVEN_HOME=/opt/maven
+ENV PATH="${MAVEN_HOME}/bin:${PATH}"
+
+RUN apt-get update && apt-get install -y npm
+
 RUN jenkins-plugin-cli --plugins \
     configuration-as-code \
     workflow-aggregator \

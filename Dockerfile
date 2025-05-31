@@ -35,4 +35,10 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 # Проверка установок
 RUN java -version && mvn -version && docker --version
 
+RUN mkdir /.docker
+RUN chmod 777 /.docker
+RUN adduser admin
+RUN groupadd -f docker && \
+    usermod -aG docker admin
+
 CMD ["bash"]
