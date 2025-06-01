@@ -36,7 +36,7 @@ pipeline {
 			steps {
 				dir('frontend') {
 					withSonarQubeEnv('SonarQube') {
-						sh 'npm run test:coverage'
+						sh 'npm run test'
 						sh 'npm run sonar'
 					}
                 }
