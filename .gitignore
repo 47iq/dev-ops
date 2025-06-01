@@ -39,3 +39,5 @@ build/
 
 ### Private Data ###
 .env
+
+/jenkins_home/

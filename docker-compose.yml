@@ -45,9 +45,12 @@ services:
       - "50000:50000"
     container_name: jenkins
     volumes:
+      - ./jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins/jcasc.yaml:/var/jenkins_home/casc.yaml
-      - ./jenkins/jobs:/var/jenkins_home/jobs
+      - ./jenkins/jobs/pipeline-backend.groovy:/var/jenkins_home/jobs/pipeline-backend.groovy
+      - ./jenkins/jobs/pipeline-bot.groovy:/var/jenkins_home/jobs/pipeline-bot.groovy
+      - ./jenkins/jobs/pipeline-frontend.groovy:/var/jenkins_home/jobs/pipeline-frontend.groovy
     environment:
       - CASC_JENKINS_CONFIG=/var/jenkins_home/casc.yaml
       - JAVA_OPTS=-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true
@@ -93,3 +96,4 @@ services:
 volumes:
   postgres_data:
   sonarqube_db_data:
+  jenkins_home:
