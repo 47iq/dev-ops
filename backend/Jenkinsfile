@@ -33,7 +33,7 @@ pipeline {
 			steps {
 				dir('backend') {
 					withSonarQubeEnv('SonarQube') {
-						sh 'mvn sonar:sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=devops-backend'
+						sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=devops-backend'
 					}
 				}
 			}
