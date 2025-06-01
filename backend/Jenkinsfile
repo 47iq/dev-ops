@@ -30,9 +30,11 @@ pipeline {
         }
 
         stage('Sonar report send') {
-			dir('backend') {
-				withSonarQubeEnv('SonarQube') {
-					sh 'mvn sonar:sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=devops-backend'
+			steps {
+				dir('backend') {
+					withSonarQubeEnv('SonarQube') {
+						sh 'mvn sonar:sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=devops-backend'
+					}
 				}
 			}
         }
