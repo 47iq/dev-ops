@@ -18,6 +18,7 @@ tool:
 jobs:
   - file: /var/jenkins_home/jobs/pipeline-frontend.groovy
   - file: /var/jenkins_home/jobs/pipeline-backend.groovy
+  - file: /var/jenkins_home/jobs/pipeline-bot.groovy
 
 credentials:
   system:
