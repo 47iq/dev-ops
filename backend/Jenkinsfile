@@ -45,7 +45,7 @@ pipeline {
 					timeout(time: 1, unit: 'MINUTES') {
 						script {
 							def qg = waitForQualityGate()
-                        	if (qg.status != 'SUCCESS') {
+                        	if (qg.status != 'OK') {
 								error "Quality Gate failed: ${qg.status}"
                         	}
                     	}
