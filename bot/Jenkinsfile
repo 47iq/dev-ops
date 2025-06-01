@@ -1,0 +1,77 @@
+pipeline {
+
+	agent any
+
+	environment {
+        SONAR_LOGIN = credentials('sonar-token-id')
+    }
+
+    stages {
+		stage('Checkout') {
+			steps {
+				checkout scm
+            }
+        }
+
+        stage('Build') {
+			steps {
+				dir('bot') {
+					sh 'mvn clean install -DskipTests'
+				}
+            }
+        }
+
+        stage('Test') {
+			steps {
+				dir('bot') {
+					sh 'mvn clean test'
+				}
+            }
+        }
+
+        stage('Sonar report send') {
+			steps {
+				dir('bot') {
+					withSonarQubeEnv('SonarQube') {
+						sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=devops-bot -Dsonar.projectName=devops-bot'
+					}
+				}
+			}
+        }
+
+        stage('Sonar report check') {
+			steps {
+				dir('bot') {
+					timeout(time: 1, unit: 'MINUTES') {
+						script {
+							def qg = waitForQualityGate()
+                        	if (qg.status != 'OK') {
+								error "Quality Gate failed: ${qg.status}"
+                        	}
+                    	}
+                    }
+				}
+			}
+		}
+
+        stage('Push Image') {
+			steps {
+				dir('bot') {
+					script {
+						sh """
+                        echo "$DOCKER_PASSWORD_FOR_PUSH" | docker login --username "$DOCKER_USERNAME_FOR_PUSH" --password-stdin
+                        docker build -t ivankustarev/devops-2025-bot:latest .
+                        docker push ivankustarev/devops-2025-bot:latest
+                        """
+                	}
+                }
+            }
+        }
+    }
+
+    post {
+		failure {
+			echo 'Build failed!'
+        }
+    }
+}
