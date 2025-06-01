@@ -1,0 +1,9 @@
+telegram:
+  bot:
+    token: ${TELEGRAM_BOT_TOKEN:}
+    username: ${TELEGRAM_BOT_USERNAME:}
+  admin:
+    username: ${TELEGRAM_ADMIN_CHAT_ID:}
+
+server:
+  port: ${SERVER_PORT:8081}

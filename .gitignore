@@ -36,3 +36,6 @@ build/
 /terraform/key.json
 /terraform/terraform
 /terraform/terraform.tfstate
+
+### Private Data ###
+.env

@@ -56,6 +56,17 @@ services:
       - DOCKER_USERNAME_FOR_PUSH=${DOCKER_USERNAME}
       - DOCKER_PASSWORD_FOR_PUSH=${DOCKER_PASSWORD}
 
+  telegram-bot:
+    build:
+      context: ./bot
+    container_name: telegram-bot
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_BOT_USERNAME=${TELEGRAM_BOT_USERNAME}
+      - TELEGRAM_ADMIN_CHAT_ID=${TELEGRAM_ADMIN_CHAT_ID}
 
 volumes:
   postgres_data:
