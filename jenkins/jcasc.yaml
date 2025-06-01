@@ -18,3 +18,20 @@ tool:
 jobs:
   - file: /var/jenkins_home/jobs/pipeline-frontend.groovy
   - file: /var/jenkins_home/jobs/pipeline-backend.groovy
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - string:
+              scope: GLOBAL
+              id: sonar-token-id
+              secret: squ_3d07cad183e84de84bf66e7ba0c3e59fffa6cf78
+
+unclassified:
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: true
+    installations:
+      - name: "SonarQube"
+        serverUrl: "http://sonarqube:9000"
+        credentialsId: "sonar-token-id"
