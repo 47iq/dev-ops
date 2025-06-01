@@ -34,11 +34,13 @@ pipeline {
 				dir('backend') {
 					sh "mvn sonar:sonar -Dsonar.projectKey=devops-backend -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${env.SONAR_LOGIN}"
 
-                    timeout(time: 1, unit: 'MINUTES') {
-						def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-							error "Quality Gate failed: ${qg.status}"
-                        }
+					script {
+						timeout(time: 1, unit: 'MINUTES') {
+							def qg = waitForQualityGate()
+                        	if (qg.status != 'OK') {
+								error "Quality Gate failed: ${qg.status}"
+                        	}
+                    	}
                     }
 				}
 			}
