@@ -32,6 +32,32 @@ pipeline {
             }
         }
 
+        stage('Sonar report send') {
+			steps {
+				dir('frontend') {
+					withSonarQubeEnv('SonarQube') {
+						sh 'npm run test:coverage'
+						sh 'npm run sonar'
+					}
+                }
+			}
+        }
+
+        stage('Sonar report check') {
+			steps {
+				dir('frontend') {
+					timeout(time: 1, unit: 'MINUTES') {
+						script {
+							def qg = waitForQualityGate()
+                        	if (qg.status != 'OK') {
+								error "Quality Gate failed: ${qg.status}"
+                        	}
+                    	}
+                    }
+				}
+			}
+		}
+
         stage('Build and push Docker image') {
 			steps {
 				dir('frontend') {
