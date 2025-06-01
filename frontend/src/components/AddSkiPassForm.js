@@ -44,7 +44,7 @@ const AddSkiPassForm = ({ onAdd }) => {
     return (
         <Box sx={{ maxWidth: 400, margin: 'auto' }}>
             <Typography variant="h5" gutterBottom>
-                Add New Ski Pass
+                Adddd New Ski Pass
             </Typography>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
