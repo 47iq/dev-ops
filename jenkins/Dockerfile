@@ -42,7 +42,9 @@ RUN jenkins-plugin-cli --plugins \
     docker-workflow \
     github \
     github-branch-source \
-    job-dsl
+    job-dsl \
+    sonar \
+    credentials
 
 RUN git config --global --add safe.directory /repo/.git
 
