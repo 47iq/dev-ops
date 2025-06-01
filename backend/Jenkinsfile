@@ -29,17 +29,20 @@ pipeline {
             }
         }
 
-        stage('Sonar') {
+        stage('Sonar report send') {
+			dir('backend') {
+				withSonarQubeEnv('SonarQube') {
+					sh 'mvn sonar:sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=devops-backend'
+				}
+			}
+        }
+
+        stage('Sonar report check') {
 			steps {
 				dir('backend') {
-					withSonarQubeEnv('SonarQube') {
-						sh 'mvn sonar:sonar -Dsonar.projectKey=devops-backend -Dsonar.projectName=devops-backend'
-					}
-
 					timeout(time: 1, unit: 'MINUTES') {
 						script {
 							def qg = waitForQualityGate()
-							sleep(time: 5, unit: 'SECONDS')
                         	if (qg.status != 'SUCCESS') {
 								error "Quality Gate failed: ${qg.status}"
                         	}
