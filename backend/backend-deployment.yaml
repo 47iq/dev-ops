@@ -49,6 +49,7 @@ spec:
       containers:
         - name: devops-2025-backend
           image: ivankustarev/devops-2025-backend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

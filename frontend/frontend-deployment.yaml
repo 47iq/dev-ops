@@ -49,6 +49,7 @@ spec:
       containers:
         - name: devops-2025-frontend
           image: ivankustarev/devops-2025-frontend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:
