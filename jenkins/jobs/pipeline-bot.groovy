@@ -12,7 +12,7 @@ pipelineJob('pipeline-bot') {
                     branches('main', 'lab1', 'lab2', 'lab3', 'lab4')
                 }
             }
-            scriptPath('./backend/Jenkinsfile')
+            scriptPath('./bot/Jenkinsfile')
         }
     }
 }
