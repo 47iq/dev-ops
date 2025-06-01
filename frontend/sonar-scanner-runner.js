@@ -7,7 +7,6 @@ scanner(
             'sonar.projectKey': 'devops-frontend',
             'sonar.projectName': 'devops-frontend',
             'sonar.sources': 'src',
-            'sonar.tests': 'test',
             'sonar.inclusions': 'src/**/*.js',
             'sonar.test.inclusions': 'test/**/*.test.js',
             'sonar.javascript.lcov.reportPaths': 'coverage/lcov.info',

@@ -37,6 +37,7 @@ pipeline {
 				dir('frontend') {
 					withSonarQubeEnv('SonarQube') {
 						sh 'npm run test'
+						sh 'rm -rf ~/.sonar/cache'
 						sh 'npm run sonar'
 					}
                 }
