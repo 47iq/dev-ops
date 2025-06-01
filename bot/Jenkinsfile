@@ -67,6 +67,16 @@ pipeline {
                 }
             }
         }
+
+        stage('Deployment') {
+			steps {
+				dir('backend') {
+					script {
+						sh 'kubectl --insecure-skip-tls-verify --server=$K8S_SERVER --client-certificate=/var/jenkins_home/.minikube/profiles/minikube/client.crt --client-key=/var/jenkins_home/.minikube/profiles/minikube/client.key rollout restart deployment devops-2025-bot'
+					}
+				}
+			}
+		}
     }
 
     post {
