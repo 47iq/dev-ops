@@ -1,5 +1,6 @@
 package org.iq47.bot;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-@Getter
+@Data
 @Slf4j
 public class NotificationBot extends TelegramLongPollingBot {
 
@@ -57,14 +58,14 @@ public class NotificationBot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendWelcomeMessage(Long chatId) throws TelegramApiException {
+    void sendWelcomeMessage(Long chatId) throws TelegramApiException {
         SendMessage message = new SendMessage();
         message.setChatId(chatId.toString());
         message.setText("Welcome to Notification Bot! Use /help for commands list.");
         execute(message);
     }
 
-    private void sendHelpMessage(Long chatId) throws TelegramApiException {
+    void sendHelpMessage(Long chatId) throws TelegramApiException {
         SendMessage message = new SendMessage();
         message.setChatId(chatId.toString());
         message.setText("Available commands:\n/start - Welcome message\n/help - This help");

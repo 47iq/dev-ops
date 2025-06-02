@@ -62,10 +62,10 @@ services:
       - DOCKER_PASSWORD_FOR_PUSH=${DOCKER_PASSWORD}
       - K8S_SERVER=https://host.docker.internal:54703
 
-  telegram-bot:
+  bot:
     build:
       context: ./bot
-    container_name: telegram-bot
+    container_name: bot
     ports:
       - "8081:8081"
     environment:
