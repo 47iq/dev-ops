@@ -58,7 +58,7 @@ spec:
             - name: TELEGRAM_BOT_USERNAME
               value: the47iqtestbot
             - name: TELEGRAM_ADMIN_CHAT_ID
-              value: 574871067
+              value: '574871067'
           resources:
             requests:
               cpu: 100m
