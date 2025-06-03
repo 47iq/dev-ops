@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: devops-2025-bot
+  name: bot
 spec:
   selector:
     app: devops-2025-bot
@@ -54,11 +54,11 @@ spec:
             - containerPort: 8081
           env:
             - name: TELEGRAM_BOT_TOKEN
-              value: ${TELEGRAM_BOT_TOKEN}
+              value: 1821081337:AAFPL5N7_aH7_EEuDU6g73VB50GxeEF0-jc
             - name: TELEGRAM_BOT_USERNAME
-              value: ${TELEGRAM_BOT_USERNAME}
+              value: the47iqtestbot
             - name: TELEGRAM_ADMIN_CHAT_ID
-              value: ${TELEGRAM_ADMIN_CHAT_ID}
+              value: 574871067
           resources:
             requests:
               cpu: 100m
